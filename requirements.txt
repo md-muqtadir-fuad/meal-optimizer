@@ -1,0 +1,6 @@
+# Core Optimization Solver
+gurobipy>=11.0.0
+
+# Optional utilities for data exploration & Excel files
+pandas>=2.0.0
+openpyxl>=3.1.0

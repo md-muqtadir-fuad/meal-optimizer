@@ -1,8 +1,8 @@
-# Meal optimization system at student dormitory
+# Meal Optimization System
 
 ## Overview
 
-This project is an individual assignment developed for the course **IPE 307: Operation Researches** at **Bangladesh University of Engineering and Technology (BUET)**. It aims to optimize the monthly meal planning for Titumir Hall’s dining system by minimizing costs while meeting the nutritional and dietary needs of students.
+This project was developed for the course **IPE 307: Operations Research** at **Bangladesh University of Engineering and Technology (BUET)**. It optimizes the monthly meal planning for a student dormitory (Titumir Hall) dining system by minimizing total food procurement costs while satisfying daily nutritional requirements, dietary restrictions, and budget constraints using linear programming (Gurobi Optimizer).
 
 ## Author
 
@@ -15,62 +15,57 @@ This project is an individual assignment developed for the course **IPE 307: Ope
 
 - **Monthly Budget:** BDT 1,200,000  
 - **Number of Students:** 480  
-- **Meal Participation Rate:** ~75%  
-- **Requirements:**
-  - All meals must meet minimum daily nutrition requirements.
-  - Meals should include daily items like lentils and lemon slices.
-  - Weekly variation is required (e.g., beef or mutton at least once).
-  - Special considerations:
-    - Non-Muslim students (~15%) do not consume beef.
-    - 5% health-conscious students opt for chicken instead of allergen-prone items like Bagda Chingri.
-    - Fresh vegetables must be used wisely due to spoilage concerns.
-    - Minimize food waste and allergens.
+- **Meal Participation Rate:** ~75% (~360 active students/day)  
+- **Requirements & Considerations:**
+  - All meals must satisfy minimum daily nutritional requirements per student.
+  - Daily staples include lentils, soybean oil, and lemon slices.
+  - Weekly variation is required (e.g., beef, mutton, or fish rotation).
+  - Non-Muslim students (~15%) do not consume beef.
+  - Students with allergies or dietary preferences opt for chicken over allergen-prone items like Bagda Chingri.
+  - Fresh vegetables have quantity bounds to control for spoilage and food waste.
 
-## Nutritional Requirements (Per Student, Per Day)
+## Daily Nutritional Requirements (Per Student)
 
-- **Protein:** ≥ 50g  
-- **Carbohydrate:** ≥ 150g  
-- **Fat:** ≥ 30g  
-
-## Objective
-
-Minimize the total cost of ingredients while ensuring all constraints are met.
-
-## Ingredients Dataset
-
-Each ingredient has associated:
-- Protein, Carbs, Fat content (per 100g)
-- Price per kg
-
-(Full list available in the documentation)
+- **Protein:** ≥ 50 g  
+- **Carbohydrates:** ≥ 150 g  
+- **Fat:** ≥ 30 g  
 
 ## Mathematical Model
 
-### Sets
-- `I`: Set of ingredients
-
-### Parameters
-- `a_ij`: Nutrient value of ingredient `i` for nutrient `j`
-- `b_i`: Minimum required intake of nutrient `i`
-- `c_i`: Cost of ingredient `i`
-
 ### Decision Variables
-- `x_i`: Quantity (in kg) of ingredient `i` to use
+- `x_i`: Quantity (in kg) of ingredient `i` to procure for the month.
 
 ### Objective Function
-Minimize ∑ c_i * x_i
+Minimize total procurement cost:
+$$\min \sum c_i x_i$$
+where $c_i$ is the unit cost of ingredient $i$.
 
 ### Constraints
-1. **Nutritional Requirements:**  
-   ∑ a_ij * x_i ≥ b_j  (for each nutrient j)
+1. **Nutritional Requirements:**
+   $$\sum a_{ij} x_i \ge b_j$$
+   where $a_{ij}$ is the amount of nutrient $j$ in ingredient $i$, and $b_j$ is the minimum required intake across all students.
 
-2. **Budget Constraint:**  
-   ∑ c_i * x_i ≤ Budget
+2. **Item Consumption Bounds:**
+   $$L_i \le x_i \le U_i$$
+   reflecting weekly variety, perishability limits, and daily inclusion staples.
 
-3. **Other Constraints:**  
-   - Weekly and monthly variation (e.g. beef/mutton, Bagda Chingri)
-   - Allergen and religious considerations
-   - Daily inclusion of certain vegetables and condiments
+## Setup & Execution
+
+### Prerequisites
+
+Install dependencies from `requirements.txt`:
+```bash
+pip install -r requirements.txt
+```
+
+> **Note:** The model uses `gurobipy`. Because this model has 34 variables, it runs on Gurobi's free size-limited license without requiring an academic or commercial license key.
+
+### Running the Model
+
+Run the optimization script from the root directory:
+```bash
+python "Titumir Hall/TITUMIRmodel.py"
+```
 
 ## Data Source
 
