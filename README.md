@@ -1,4 +1,4 @@
-# Titumir Hall Meal Optimization System
+# Meal optimization system at student dormitory
 
 ## Overview
 
