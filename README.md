@@ -70,3 +70,5 @@ python "Titumir Hall/TITUMIRmodel.py"
 ## Data Source
 
 - Nutritional data collected from [Nutritionix](https://www.nutritionix.com)
+---
+Note: the BDT 1.2M budget is not enforced in the code; the minimum-cost plan (~BDT 1.31M) exceeds it, meaning the requirements are infeasible under that budget.
